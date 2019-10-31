@@ -6,7 +6,7 @@ output:
     vertical_layout: fill
 ---
 
-```{r warning=FALSE}
+```{r include=FALSE}
 library(flexdashboard)
 library(tidyverse)
 library(viridis)
@@ -21,16 +21,16 @@ insta_data = instacart %>%
   filter(department == "beverages") %>%
   mutate(reordered = recode(reordered, "1" = "Yes", "0" = "No"), 
          order_dow = recode(order_dow, "0" = "Sunday", "1" = "Monday", "2" = "Tuesday", 
-                             "3" = "Wednesday", "4" = "Thursday", "5" = "Friday", "6" = "Saturday")) %>%
-  select (aisle, product_name, order_hour_of_day, order_dow, reordered) 
+                             "3" = "Wednesday", "4" = "Thursday", "5" = "Friday", "6" = "Saturday")) 
 ```
 
 ```{r warning=FALSE}
 count = insta_data %>% 
   group_by(aisle) %>%
   summarize(reordered = n())
-count
 ```
+Column {data-width=650}
+-----------------------------------------------------------------------
 
 ### Bar Chart 
 * Number of times goods from each aisle were reorderd within the beverage department. 
@@ -41,6 +41,8 @@ count %>%
          yaxis = list(title = "Total items reordered"))
 ```
 
+Column {data-width=350}
+-----------------------------------------------------------------------
 ### Boxplot
 * Distribution of each aisle being purchased across all hours of day.  
 ```{r warning=FALSE}
@@ -51,4 +53,19 @@ layout(xaxis = list(title = "Aisle Category"),
 ```
 
 ### Line plot
-* Number of times goods from each aisle were reorderd within the beverage department. 
+*  Distribution of quantity of beverages ordered across a week
+```{r warning=FALSE}
+
+count2 = insta_data %>% 
+  group_by(aisle, order_dow) %>%
+  summarize(order_id = n())
+
+```
+
+```{r warning=FALSE}
+
+count2 %>%
+  plot_ly(x = ~order_dow, y = ~order_id, color = ~aisle, type = "scatter", mode = "lines+marks") %>%
+layout(xaxis = list(title = "Day of Week"),
+         yaxis = list(title = "Quantity Ordered"))
+```
