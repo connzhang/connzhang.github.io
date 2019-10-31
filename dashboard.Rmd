@@ -1,16 +1,20 @@
 ---
-title: "Data Science Plotly Visuals"
-output:
-      html_document
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
 ---
 
-```{r warning=FALSE}
+```{r setup, warning=FALSE}
+library(flexdashboard)
 library(tidyverse)
 library(viridis)
 library(p8105.datasets)
 library(plotly)
 ```
 
+-----------------------------------------------------------------------
 ```{r warning=FALSE}
 data("instacart")
 insta_data = instacart %>%

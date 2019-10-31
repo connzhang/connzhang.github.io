@@ -13,7 +13,7 @@ navbar:
     - text: "Resume"
       href: about.html
     - text: "Data Science Plots"
-      href: plotly.html
+      href: dashboard.html
       
 output:
   html_document:
